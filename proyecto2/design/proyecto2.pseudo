@@ -1,0 +1,136 @@
+// Copyright 2021 Por determinar
+// <fabian.gonzalezrojas@ucr.ac.cr>
+// <jose.solanomurillo@ucr.ac.cr>
+
+main:
+    Magician.start()
+
+Magician.start():
+  Process 0
+    analyzeArguments(arg0, arg1)
+    Simulate()
+  End process 0
+
+  Process n
+    mpiConsumingProcess()
+  end Process n
+end start
+
+Magician.analyzeArguments()
+    if (arg1[0] == "job")
+        CrystalBall.divideJob()
+    else if (arg1[0] == "map")
+        CrystalBall.InsertMap()
+    end if
+end analyze_arguments
+
+CrystalBall.divideJob():
+    while (por cada map dentro del archivo job0xx.txt)
+        InsertMap(argument_line) // map012.txt 10
+    end while
+end divideJob
+
+CrystalBall.InsertMap():
+    Map current_map
+    current_map.
+    map_queue.push(current_map)
+end InsertMap
+
+Magician.Simulate():
+    while (map_queue.isEmpty())
+        send_map_to_secondary_process()
+    end while
+end Simulate
+
+Magician.mpiConsumingProcess()
+    while (true)
+      map <- receive_map_from_main_process()
+      if (map == stop_message)
+          stop while
+      end if
+      forest <- create_forest(map)
+      process_forest(forest)
+    end while
+end mpiConsumingProcess
+
+Magician.process_forest():
+    for Forest.days
+        Forest.update_forest()
+        if (Forest.export_all() || "ultima_iteracion")
+            CrystalBall.export_forest(Forest)
+        end if
+    end for
+end process_forest
+
+// PARALELISMO
+Forest.update_forest()
+    char** tmp = old_forest
+    old_forest = updated_forest
+    updated_forest = tmp
+    #create_theads for every processor (tipo: estatico, cicliclo, dinamico, autom)
+        #pragma for
+        for (int i = 0; i < row_l; ++i) {
+            this->update_row(i)
+        }
+        
+end update_forest
+
+//EJEMPLOS DE PARALELISMO
+
+old_forest:
+------------
+l----a---l--
+l---------a-
+------------
+
+updated_forest:
+eeeeeeeeeeee
+eeeeeeeeeeee
+eeeeeeeeeeee
+eeeeeeeeeeee
+
+thread(0)
+before update_row
+->------------
+  l----a---l--
+  l---------a-
+  ------------
+
+after update_row
+  ------------
+  eeeeeeeeeeee
+  eeeeeeeeeeee
+  eeeeeeeeeeee
+
+thread(1)
+  ------------
+->l----a---l--
+  l---------a-
+  ------------
+
+  ------------
+  -----a------
+  eeeeeeeeeeee
+  eeeeeeeeeeee
+
+thread(2)
+  ------------
+  l----a---l--
+->l---------a-
+  ------------
+
+  ------------
+  -----a------
+  ----------a-
+  eeeeeeeeeeee
+
+thread(3)
+  ------------
+  l----a---l--
+  l---------a-
+->------------
+
+  ------------
+  -----a------
+  ----------a-
+  ------------

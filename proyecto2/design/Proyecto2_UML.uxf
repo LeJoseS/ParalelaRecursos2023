@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>12</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>948</x>
+      <y>48</y>
+      <w>348</w>
+      <h>456</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Crystall Ball&gt;&gt;
+{ Clase que interactúa
+con archivos externos }
+--
+-map_queue: Queue&lt;Map&gt;*
+
+--
+#materilaize_forest() : void
+
+#divideJob(int argc, char* argv[]): void
+
+#insertMap(std::string args) : void
+
+#processForest(Forest* forest) : void
+
+#exportForest(Forest* forest, 
+const int64_t current_night) : void
+
+--
+Responsibilidades
+-- Exportar e importar información
+	de archivos .txt
+-- Ordenar al bosque avanzar
+	</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>600</x>
+      <y>432</y>
+      <w>252</w>
+      <h>324</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Forest&gt;&gt;
+{ Modifica el bosque dado }
+--
+-row_l: int64_t
+-col_l: int64_t
+-old_forest: char 
+-updated_forest: char 
+-export_all: bool 
+
+--
+#update_forest() : void
+/Does the amount of nights's/
+/simulation/
+--
+Responsabilidades
+-- Avanzar al bosque
+-- Almacenar el nombre del
+archivo original y las noches</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>276</x>
+      <y>48</y>
+      <w>252</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Magician&gt;&gt;
+{ Clase que controla
+la bola de cristal }
+--
+-map_queue: Queue&lt;Map&gt;*
+-crystalBall: CrystallBall
+--
+#start(int argc, 
+char* argv[]) :int
+
+#analyzeArguments(int argc,
+char* argv[]) : void
+
+#simulate() : void
+
+--
+Responsabilidades
+-- Analiza el trabajo
+-- Crea y controla bolas
+de cristal</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>192</y>
+      <w>120</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>Queue&lt;Map&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>516</x>
+      <y>192</y>
+      <w>168</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>768</x>
+      <y>192</y>
+      <w>204</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>636</x>
+      <y>288</y>
+      <w>168</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>Map_t
+-std::string filename
+-int64_t noches</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>708</x>
+      <y>216</y>
+      <w>36</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>516</x>
+      <y>96</y>
+      <w>456</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>360.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>480</y>
+      <w>132</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+</diagram>

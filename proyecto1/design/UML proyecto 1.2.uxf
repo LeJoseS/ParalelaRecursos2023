@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>210</y>
+      <w>370</w>
+      <h>410</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;WebServer&gt;&gt;
+{Clase que crea los threads
+y colas}
+--
+const char* port
+Queue&lt;Socket&gt;* socket_queue
+Queue&lt;number_package_t*&gt;* socket_numbers_queue
+Queue&lt;goldbach_package_t*&gt;* numbers_queue
+Queue&lt;assembler_package_t*&gt;* sums_queue
+Queue&lt;number_package_t*&gt;* output_queue
+/// threads
+std::vector&lt;GoldbachWebApp*&gt; connection_threads
+Disassembler* disassembler_thread = nullptr
+std::vector&lt;Calculator*&gt; calcu_threads
+Assembler* assembler_thread = nullptr
+Sender* sender_thread = nullptr
+--
+bool analyzeArguments(int argc, char* argv[])
+// Inicializes the thread classes and sets their queues
+void setThreads()
+/// Starts the threads inside of the producer and consumer classes
+void startThreads()
+/// Makes the threads join with the main thread and wait to die
+void waitThreads()
+/// Handle HTTP requests. @see HttpServer::handleHttpRequest()
+bool handleHttpRequest(HttpRequest&amp; httpRequest,
+HttpResponse&amp; httpResponse) override
+--
+Responsibilities
+-- Analizar los argumentos del usuario
+-- Crear e iniciar los hilos del programa</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>210</y>
+      <w>380</w>
+      <h>420</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;GoldbachWebApp&gt;&gt;
+{Mantiene la conección con el socket
+y obtiene la petición del cliente}
+--
+Queue&lt;Socket&gt; producing_queue
+Queue&lt;number_package_t*&gt;
+--
+void setUpHtml(httpResponse,string title)
+--
+Responsibilities
+-- Resp1
+*-- Resp2*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>370</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Queue&lt;Socket&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>370</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>370</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,158 @@
+/// WebServer -> socket_queue -> GoldbachWebApp
+Queue<Socket>* socket_queue
+/// GoldbachWebApp -> socket_numbers_queue -> Disassembler
+Queue<number_package_t*>* socket_numbers_queue
+/// Disassembler -> numbers_queue -> Calculator
+Queue<goldbach_package_t*>* numbers_queue
+/// Calculator -> sums_queue -> Assembler
+Queue<assembler_package_t*>* sums_queue
+/// Assembler -> output_queue -> Sender -> Salida a pagina web
+Queue<number_package_t*>* output_queue
+
+
+main:
+    WebServer.start(argc, argv);
+
+WebServer.start():
+	if (analyze_arguments(argc, argv))
+		// Se escucha por peticiones al programa en el puerto de red
+		listenForConnections()
+		NetworkAddress& address := getNetworkAddress()
+
+		// Inicializa las variables de los hilos
+		setThreads()
+
+		// Inicia los hilos
+        startThreads()
+
+		// Acepta todas las conexiones que entran en la pagina web
+        acceptAllConnections(socket_queue)
+		
+		// Espera a los hilos y los borra
+		waitThreads()
+	end if
+
+acceptAllConnections():
+    while (!interrumpt)
+        add conections to the socket_queue
+    end while
+
+startThreads:
+	// Start the Server and threads
+	Starts 1 connection_threads for each thread_available in the computer
+	Starts 1 disassembler_thread
+	Starts 1 calcu_threads for each thread_available in the computer
+	Starts 1 assembler_thread
+	Starts 1 sender_thread
+
+// GoldbachWebApp -----------------------------------------------------------------------
+connection_threads:
+	consumes from socket_queue
+	// Creates the httpResponse and httpResquest and extracts the numbers from the socket
+	settupSocket(socket)
+
+settupSocket()
+	... does web things to create httpResponse and httpResquest
+	analyze_arguments(httpRequest, httpResponse)
+
+analyze_arguments()
+	extracts the queue of numbers from the URI
+	// example: 41,54,65,787,-745,14
+	// queue: 41 54 65 787 -745 14
+	creates a new number_package_t 
+	stores the data inside and calls produce()
+
+// Each thread answers a 1 different web page
+
+connection_thread0: Receives a socket and extracts the numbers, then stores them in a socket_numbers_queue
+
+connection_thread1: Receives a socket and extracts the numbers, then stores them in a socket_numbers_queue
+
+connection_thread2: Receives a socket and extracts the numbers, then stores them in a socket_numbers_queue
+
+connection_thread3: Receives a socket and extracts the numbers, then stores them in a socket_numbers_queue
+
+// End GoldbachWebApp -------------------------------------------------------------------
+
+
+// Disassembler  ------------------------------------------------------------------------
+disassembler_thread:	// Unique thread
+	// Puts all numbers of one socket in the numbers_queue
+	// 10 20 30 40 50 60
+	// position 0, number 10, my_package
+	// position 1, number 20, my_package etc
+	while ( numbers_queue is not empty )
+		number := numbers_queue.pop()
+		goldbach_package_t* packet := {position, number, data}
+		this->produce(packet);
+		++position;
+	end while
+// End Disassembler  --------------------------------------------------------------------
+
+// Calculator  --------------------------------------------------------------------------
+calcu_threads:
+	consumes a goldbach_number	// With the position and the data of his package
+	goldbach_sums_t* sums := CalculateGoldbach(goldbach_number)
+	assembler_package_t* packet = {position, sums, my_package};
+	this->produce(packet);
+
+calcu_threads0: Calculates the goldbach sums for 1 number and stores the sums + the data
+of the number in the sums_queue
+
+calcu_threads1: Calculates the goldbach sums for 1 number and stores the sums + the data
+of the number in the sums_queue
+
+calcu_threads2: Calculates the goldbach sums for 1 number and stores the sums + the data
+of the number in the sums_queue
+
+calcu_threads3: Calculates the goldbach sums for 1 number and stores the sums + the data
+of the number in the sums_queue
+
+// End Calculator  ----------------------------------------------------------------------
+
+// Assembler ----------------------------------------------------------------------------
+assembler_thread:	// Unique thread
+	// Puts all the processed sums of one number in their
+	// respective socket's vector
+	results[position] = sums;	// This info is available in the number_package_t
+	++processed;
+	// To know that he has processed all the data from one respective socket, the 
+	// total ammounts of processed numbers received here has to be the same of 
+	// the size of the result vector
+	if (processed == total size of results)
+		produce(my_package);
+	end if
+
+// End Assembler ------------------------------------------------------------------------
+
+// Sender -------------------------------------------------------------------------------
+sender_thread:	// Unique thread
+	// Takes the vector of results, converts the sums to string and sends them to the web
+	serveGoldbachSums()
+
+// End Sender ---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

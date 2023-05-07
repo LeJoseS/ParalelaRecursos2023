@@ -1,0 +1,11 @@
+/proyecto1/bin
+/proyecto1/build
+/proyecto1/doc
+*.gch
+/proyecto2/bin
+/proyecto2/build
+/proyecto2/doc
+/proyecto2/results/*
+../.vscode/settings.json
+../.vscode/c_cpp_properties.json
+.vscode/
